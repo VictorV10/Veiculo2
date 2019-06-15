@@ -104,20 +104,21 @@ public class DaoCadastro extends DAOBase {
         ResultSet rs = null;
         List<Cadastro> listaCadastro = new ArrayList<Cadastro>();
         try {
-            String sqlSelect = "SELECT cadastro.CodCadastro,cadastro.placa,cadastro.Renavan,cadastro.CodC,"
-                    + " modelo.descricao as descricao "
-                    + " FROM cadastro cadastro,modelo modelo "
-                    + "	where cadastro.CodC = cadastro.CodCadastro";
+            String sqlSelect = " Select c.codCadastro, "
+        +" c.Placa,c.Renavan,m.Descricao "
+	+" from Modelo as m"	
+	+" inner join Cadastro as c "	
+        +" on (c.codCadastro = c.codCadastro)";
             ps = con.prepareStatement(sqlSelect);
             rs = ps.executeQuery();
             while (rs.next()) {
                 int CodCadastro = rs.getInt("CodCadastro");
-                String placa = rs.getString("placa");
+                String Placa = rs.getString("placa");
                 int Renavan = rs.getInt("Renavan");
-                int CodC = rs.getInt("CodC");
                 String descricao = rs.getString("descricao");
-                Marca modelo = new Marca(CodC, descricao);
-                Cadastro cadastro = new Cadastro(CodCadastro,placa,Renavan,modelo);
+                
+                Marca modelo = new Marca(descricao);
+                Cadastro cadastro = new Cadastro(CodCadastro,Placa,Renavan,modelo);
                 listaCadastro.add(cadastro);
             }
         } catch (SQLException e) {
